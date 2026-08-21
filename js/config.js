@@ -52,18 +52,6 @@ const WEDDING_CONFIG = {
   // Ceremony Schedule (Dinner & Shubhalagnam)
   events: [
     {
-      id: "dinner",
-      title: "విందు (Dinner / Bhojanam)",
-      subtitle: "Pre-Muhurtham Wedding Feast",
-      dateStr: "Sunday, August 30, 2026",
-      timeStr: "08:00 PM IST onwards",
-      startISO: "2026-08-30T20:00:00+05:30",
-      endISO: "2026-08-30T22:00:00+05:30",
-      venueName: "Srinivasam Function Hall, NRT Center",
-      badgeColor: "#F59E0B",
-      icon: "dinner"
-    },
-    {
       id: "wedding",
       title: "శుభలగ్నం",
       subtitle: "Subhalagnam (Auspicious Wedding Muhurtham)",
@@ -74,6 +62,18 @@ const WEDDING_CONFIG = {
       venueName: "Srinivasam Function Hall, NRT Center",
       badgeColor: "#831627",
       icon: "wedding"
+    },
+    {
+      id: "dinner",
+      title: "విందు (Dinner / Bhojanam)",
+      subtitle: "Pre-Muhurtham Wedding Feast",
+      dateStr: "Sunday, August 30, 2026",
+      timeStr: "08:00 PM IST onwards",
+      startISO: "2026-08-30T20:00:00+05:30",
+      endISO: "2026-08-30T22:00:00+05:30",
+      venueName: "Srinivasam Function Hall, NRT Center",
+      badgeColor: "#F59E0B",
+      icon: "dinner"
     }
   ],
 
