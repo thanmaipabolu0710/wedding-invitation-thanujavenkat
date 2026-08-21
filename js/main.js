@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initInvitation() {
   renderConfigData();
-  initWeddingAudio();
   initEnvelopeOpener();
   initCountdownTimer();
   initScrollAnimations();
@@ -28,7 +27,6 @@ function initInvitation() {
   initAudioPlayer();
   initShareAction();
   startAmbientMusic();
-
 }
 
 /* ==========================================================================
@@ -641,130 +639,84 @@ function showToast(message) {
 }
 
 /* ==========================================================================
-   10. AMBIENT INDIAN INSTRUMENTAL SYNTHESIZER (WEB AUDIO API)
+   10. WEDDING SONG PLAYER
    ========================================================================== */
-let audioCtx = null;
+
 let isAudioPlaying = false;
-let synthInterval = null;
-
-// Traditional Indian Raag Yaman Pentatonic Frequencies (Hz)
-const ragaScale = [
-  261.63, // Sa  (C4)
-  293.66, // Re  (D4)
-  329.63, // Ga  (E4)
-  369.99, // Ma* (F#4)
-  392.00, // Pa  (G4)
-  440.00, // Dha (A4)
-  493.88, // Ni  (B4)
-  523.25, // Sa' (C5)
-  587.33, // Re' (D5)
-  659.25  // Ga' (E5)
-];
-
-function initAudioContext() {
-  if (!audioCtx) {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    audioCtx = new AudioContext();
-  }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
-}
-
-
-
-function playSantoorNote(freq, time, duration = 2.0) {
-  if (!audioCtx || !isAudioPlaying) return;
-
-  const osc = audioCtx.createOscillator();
-  const oscHarmonic = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-
-  osc.type = 'triangle';
-  oscHarmonic.type = 'sine';
-
-  osc.frequency.setValueAtTime(freq, time);
-  oscHarmonic.frequency.setValueAtTime(freq * 2, time);
-
-  // Plucked envelope
-  gain.gain.setValueAtTime(0.001, time);
-  gain.gain.linearRampToValueAtTime(0.06, time + 0.04);
-  gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-
-  osc.connect(gain);
-  oscHarmonic.connect(gain);
-  gain.connect(audioCtx.destination);
-
-  osc.start(time);
-  oscHarmonic.start(time);
-  osc.stop(time + duration);
-  oscHarmonic.stop(time + duration);
-}
 
 function startAmbientMusic() {
   try {
     if (!window.weddingAudio) {
       window.weddingAudio = new Audio('assets/audio/wedding-song.mp3');
       window.weddingAudio.loop = true;
+      window.weddingAudio.preload = 'auto';
       window.weddingAudio.volume = 0.7;
     }
 
-    window.weddingAudio.currentTime = 0;
     window.weddingAudio.muted = false;
 
     window.weddingAudio.play().then(() => {
       isAudioPlaying = true;
       updateAudioUi(true);
     }).catch((err) => {
-      console.warn('Autoplay blocked:', err);
+      console.warn('Audio autoplay blocked:', err);
     });
 
   } catch (err) {
     console.warn('Wedding audio error:', err);
   }
 }
+
 function stopAmbientMusic() {
+  if (!window.weddingAudio) return;
+
+  window.weddingAudio.pause();
   isAudioPlaying = false;
-
-  if (window.weddingAudio) {
-    window.weddingAudio.pause();
-  }
-
   updateAudioUi(false);
 }
 
 function toggleAmbientMusic() {
-  if (!window.weddingAudio) return;
+  if (!window.weddingAudio) {
+    startAmbientMusic();
+    return;
+  }
 
+  // Button controls MUTE / UNMUTE only
   window.weddingAudio.muted = !window.weddingAudio.muted;
 
   updateAudioUi(!window.weddingAudio.muted);
 }
 
-function updateAudioUi(playing) {
+function updateAudioUi(soundOn) {
   const btn = document.getElementById('btn-audio-toggle');
 
-  if (btn) {
-    btn.classList.toggle('is-playing', playing);
-    btn.setAttribute('aria-pressed', String(playing));
-    btn.setAttribute(
-      'aria-label',
-      playing ? 'Mute wedding music' : 'Unmute wedding music'
-    );
-    btn.setAttribute(
-      'title',
-      playing ? 'Mute wedding music' : 'Unmute wedding music'
-    );
-  }
+  if (!btn) return;
+
+  btn.classList.toggle('is-playing', soundOn);
+
+  btn.setAttribute(
+    'aria-pressed',
+    String(soundOn)
+  );
+
+  btn.setAttribute(
+    'aria-label',
+    soundOn ? 'Mute wedding music' : 'Unmute wedding music'
+  );
+
+  btn.setAttribute(
+    'title',
+    soundOn ? 'Mute wedding music' : 'Unmute wedding music'
+  );
 }
 
 function initAudioPlayer() {
   const btn = document.getElementById('btn-audio-toggle');
+
   if (btn) {
     btn.addEventListener('click', toggleAmbientMusic);
   }
 }
-
 /* ==========================================================================
    11. WHATSAPP SHARE INVITATION ACTION
    ========================================================================== */
