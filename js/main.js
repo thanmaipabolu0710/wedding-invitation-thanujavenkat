@@ -681,7 +681,19 @@ function toggleAmbientMusic() {
     return;
   }
 
-  // Button controls MUTE / UNMUTE only
+  if (window.weddingAudio.paused) {
+    window.weddingAudio.muted = false;
+
+    window.weddingAudio.play().then(() => {
+      isAudioPlaying = true;
+      updateAudioUi(true);
+    }).catch((err) => {
+      console.warn('Unable to start wedding music:', err);
+    });
+
+    return;
+  }
+
   window.weddingAudio.muted = !window.weddingAudio.muted;
 
   updateAudioUi(!window.weddingAudio.muted);
