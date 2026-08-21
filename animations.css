@@ -1,0 +1,139 @@
+/* ==========================================================================
+   ROYAL INDIAN WEDDING INVITATION - ANIMATIONS & MOTION
+   ========================================================================== */
+
+/* Envelope Card Float */
+@keyframes floatCard {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Wax Seal Pulse */
+@keyframes sealPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px rgba(84, 13, 26, 0.4), 0 0 0 0 rgba(212, 175, 55, 0.4);
+  }
+  70% {
+    transform: scale(1.04);
+    box-shadow: 0 12px 30px rgba(84, 13, 26, 0.6), 0 0 0 14px rgba(212, 175, 55, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px rgba(84, 13, 26, 0.4), 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+}
+
+/* Ganesha Crest Glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    filter: drop-shadow(0 4px 10px rgba(184, 134, 11, 0.35));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 6px 16px rgba(212, 175, 55, 0.6));
+    transform: scale(1.02);
+  }
+}
+
+/* Audio Visualizer Sound Bar */
+@keyframes soundBar {
+  0% {
+    height: 3px;
+  }
+  100% {
+    height: 14px;
+  }
+}
+
+/* Gold Shimmer Sheen */
+@keyframes goldShimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.gold-shimmer-effect {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0) 0%,
+    rgba(255, 245, 215, 0.8) 50%,
+    rgba(212, 175, 55, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: goldShimmer 3.5s infinite;
+}
+
+/* Slow Rotating Mandala Background Ornament */
+@keyframes rotateMandala {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate-slow {
+  animation: rotateMandala 60s linear infinite;
+}
+
+/* ==========================================================================
+   SCROLL-TRIGGERED REVEAL SYSTEM
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-up {
+  transform: translateY(32px);
+}
+
+.reveal-scale {
+  transform: scale(0.92);
+}
+
+.reveal-left {
+  transform: translateX(-30px);
+}
+
+.reveal-right {
+  transform: translateX(30px);
+}
+
+/* Active In-View State */
+.reveal.in-view {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+/* Stagger Delays */
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+
+/* Subtle Diya / Lantern Flicker */
+@keyframes diyaFlicker {
+  0%, 100% {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 6px rgba(255, 183, 3, 0.6));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(255, 183, 3, 0.9));
+  }
+}
+
+.diya-glow {
+  animation: diyaFlicker 2s ease-in-out infinite alternate;
+}
