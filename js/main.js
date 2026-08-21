@@ -709,24 +709,14 @@ function startAmbientMusic() {
       window.weddingAudio.volume = 0.7;
     }
 
+    window.weddingAudio.currentTime = 0;
+    window.weddingAudio.muted = false;
+
     window.weddingAudio.play().then(() => {
       isAudioPlaying = true;
       updateAudioUi(true);
-    }).catch(() => {
-      // Browser blocked autoplay.
-      // Try again after the visitor's first interaction.
-      const startOnInteraction = () => {
-        window.weddingAudio.play().then(() => {
-          isAudioPlaying = true;
-          updateAudioUi(true);
-        }).catch(() => {});
-
-        document.removeEventListener('click', startOnInteraction);
-        document.removeEventListener('touchstart', startOnInteraction);
-      };
-
-      document.addEventListener('click', startOnInteraction, { once: true });
-      document.addEventListener('touchstart', startOnInteraction, { once: true });
+    }).catch((err) => {
+      console.warn('Autoplay blocked:', err);
     });
 
   } catch (err) {
@@ -744,11 +734,11 @@ function stopAmbientMusic() {
 }
 
 function toggleAmbientMusic() {
-  if (isAudioPlaying) {
-    stopAmbientMusic();
-  } else {
-    startAmbientMusic();
-  }
+  if (!window.weddingAudio) return;
+
+  window.weddingAudio.muted = !window.weddingAudio.muted;
+
+  updateAudioUi(!window.weddingAudio.muted);
 }
 
 function updateAudioUi(playing) {
@@ -757,15 +747,13 @@ function updateAudioUi(playing) {
   if (btn) {
     btn.classList.toggle('is-playing', playing);
     btn.setAttribute('aria-pressed', String(playing));
-
     btn.setAttribute(
       'aria-label',
-      playing ? 'Turn wedding music off' : 'Turn wedding music on'
+      playing ? 'Mute wedding music' : 'Unmute wedding music'
     );
-
     btn.setAttribute(
       'title',
-      playing ? 'Turn wedding music off' : 'Turn wedding music on'
+      playing ? 'Mute wedding music' : 'Unmute wedding music'
     );
   }
 }
