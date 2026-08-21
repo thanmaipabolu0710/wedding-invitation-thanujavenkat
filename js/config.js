@@ -142,6 +142,6 @@ const WEDDING_CONFIG = {
   // WhatsApp Share Template
   share: {
     title: "Wedding Invitation: Thanuja & Venkata Sai Krishna",
-    text: "✨ Auspicious Wedding Invitation ✨\n\nWith joyous hearts, the Aadhirala & Podhili families cordially invite you to the wedding ceremony of Thanuja & Venkata Sai Krishna.\n\n📅 Date: Sunday, August 30, 2026\n🍽️ Dinner (విందు): 8:00 PM IST\n🪷 Muhurtham (శుభలగ్నం): 10:00 PM IST\n📍 Venue: Srinivasam Function Hall, NRT Center, Chilakaluripet, Palnadu\n\nPlease view our digital invitation card and directions here:\n"
+    text: "✨ Auspicious Wedding Invitation ✨\n\nWith joyous hearts, the Adhirala & Podili families cordially invite you to the wedding ceremony of Thanuja & Venkata Sai Krishna.\n\n📅 Date: Sunday, August 30, 2026\n🍽️ Dinner (విందు): 8:00 PM IST\n🪷 Muhurtham (శుభలగ్నం): 10:00 PM IST\n📍 Venue: Srinivasam Function Hall, NRT Center, Chilakaluripet, Palnadu\n\nPlease view our digital invitation card and directions here:\n"
   }
 };
