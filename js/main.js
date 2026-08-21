@@ -653,14 +653,32 @@ function startAmbientMusic() {
       window.weddingAudio.volume = 0.7;
     }
 
+    // DEFAULT = UNMUTED
     window.weddingAudio.muted = false;
 
-    window.weddingAudio.play().then(() => {
-      isAudioPlaying = true;
-      updateAudioUi(true);
-    }).catch((err) => {
-      console.warn('Audio autoplay blocked:', err);
-    });
+    const playSong = () => {
+      window.weddingAudio.play().then(() => {
+        isAudioPlaying = true;
+        updateAudioUi(true);
+      }).catch(() => {
+        // Browser blocked autoplay.
+        // Try again after the first user interaction.
+      });
+    };
+
+    playSong();
+
+    const startAfterInteraction = () => {
+      if (window.weddingAudio.paused) {
+        playSong();
+      }
+
+      document.removeEventListener('click', startAfterInteraction);
+      document.removeEventListener('touchstart', startAfterInteraction);
+    };
+
+    document.addEventListener('click', startAfterInteraction, { once: true });
+    document.addEventListener('touchstart', startAfterInteraction, { once: true });
 
   } catch (err) {
     console.warn('Wedding audio error:', err);
