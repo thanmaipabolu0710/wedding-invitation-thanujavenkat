@@ -27,6 +27,8 @@ function initInvitation() {
   initVenueActions();
   initAudioPlayer();
   initShareAction();
+  startAmbientMusic();
+
 }
 
 /* ==========================================================================
@@ -710,15 +712,27 @@ function startAmbientMusic() {
     window.weddingAudio.play().then(() => {
       isAudioPlaying = true;
       updateAudioUi(true);
-    }).catch((err) => {
-      console.warn('Wedding song could not play:', err);
+    }).catch(() => {
+      // Browser blocked autoplay.
+      // Try again after the visitor's first interaction.
+      const startOnInteraction = () => {
+        window.weddingAudio.play().then(() => {
+          isAudioPlaying = true;
+          updateAudioUi(true);
+        }).catch(() => {});
+
+        document.removeEventListener('click', startOnInteraction);
+        document.removeEventListener('touchstart', startOnInteraction);
+      };
+
+      document.addEventListener('click', startOnInteraction, { once: true });
+      document.addEventListener('touchstart', startOnInteraction, { once: true });
     });
 
   } catch (err) {
     console.warn('Wedding audio error:', err);
   }
 }
-
 function stopAmbientMusic() {
   isAudioPlaying = false;
 
